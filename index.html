@@ -35,7 +35,6 @@
       --gray:    #6b7a8d;
       --light:   #0d0f35;
       --border:  #e8ecfc;
-      --gradient:#1d253f;
       --radius:  14px;
       --shadow:  0 4px 24px rgba(30,60,80,.10);
     }
@@ -52,7 +51,7 @@
 
     body {
       font-family: 'Nunito', sans-serif;
-      background: var(--light);
+      background: linear-gradient(to bottom, var(--light), var(--gradient));
       color: var(--navy);
       min-height: 100vh;
     }
@@ -123,7 +122,7 @@
 
     /* ── HERO ── */
     .hero {
-      background: linear-gradient(135deg, #222e78 0%, var(--gradient) 100%);
+      background: linear-gradient(135deg, #222e78 0%, #1e4060 100%);
       color: #fff;
       text-align: center;
       padding: 3.5rem 2rem 3rem;
