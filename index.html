@@ -122,10 +122,7 @@
 
     /* ── HERO ── */
     .hero {
-      background: 
-        radial-gradient(5% 3% at 50% 0%, #2ec4b62e 0%, transparent 100%),
-        linear-gradient(to bottom, #000f6e 80%, #000f6e00);
-      background-attachment: fixed;
+      background: linear-gradient(to bottom, #000f6e 80%, #000f6e00);
       color: #fff;
       text-align: center;
       padding: 3.5rem 2rem 3rem;
@@ -135,6 +132,7 @@
     .hero::before {
       content: '';
       position: absolute; inset: 0;
+      background: #1b2135;
       pointer-events: none;
     }
     .hero-icon {
