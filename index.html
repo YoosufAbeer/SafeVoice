@@ -239,6 +239,24 @@
       color: #fff;
     }
 
+    .chip-theme{
+      padding: .3rem;
+      border: 1px solid var(--teal);
+      border-radius: 20px;
+      font-size: .83rem; font-weight: 700;
+      cursor: pointer;
+      transition: all .18s;
+      background: rgba(46,196,182,.15);
+      color: var(--gray);
+      user-select: none;
+    }
+    .chip-theme:hover { border-color: var(--sky); color: var(--teal-dk); }
+    .chip-theme.active {
+      background: var(--teal);
+      border-color: var(--sky);
+      color: #fff;
+    }
+
     /* ── SEVERITY SLIDER ── */
     .severity-labels {
       display: flex; justify-content: space-between;
@@ -407,7 +425,7 @@
 <!-- HEADER -->
 <header>
   <div class="header-badge">🔒 99.9% Anonymous</div>
-  <div class="chip" data-val="physical">🌙</div>
+  <div class="chip-theme" data-val="physical">🌙</div>
 </header>
 
 <!-- HERO -->
