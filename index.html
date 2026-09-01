@@ -22,6 +22,26 @@
       --radius:  14px;
       --shadow:  0 4px 24px rgba(30,60,80,.10);
     }
+    /* ── DARK MODE OVERRIDES ── */
+    [data-theme="dark"] {
+      --sky:     #070d24;        
+      --white:   #000f6e;        
+      --navy:    #ffffff;        
+      --gray:    #d6e4f0;        
+      --border:  #0016a3;        
+      --shadow:  0 4px 24px rgba(0, 0, 0, 0.4); 
+      --teal:    #3b52ff;        
+    }
+
+    /* ── SMOOTH TRANSITION FOR THE WHOLE PAGE ── */
+    body {
+      background-color: var(--page-bg);
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .container, form, input, textarea, select, button {
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
 
     body {
       font-family: 'Nunito', sans-serif;
