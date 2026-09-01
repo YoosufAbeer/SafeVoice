@@ -414,8 +414,13 @@
 <!-- HEADER -->
 <header>
   <div class="header-badge">🔒 99.9% Anonymous</div>
-  <div class="chip-theme" data-val="physical">🌙</div>
-  <div class="chip" data-val="physical">👊 Physical</div>
+<!--  <div class="chip-theme" data-val="physical"></div> 
+  <div class="chip" data-val="theme">🌙</div> -->
+ <label>Type of bullying <span class="optional">(select all that apply)</span></label>
+  <div class="chip-group" id="type-chips">
+   <div class="chip" data-val="physical">👊 Physical</div>
+  </div>
+  <input type="hidden" id="type-value" name="Type of Bullying" />
 </header>
 
 <!-- HERO -->
