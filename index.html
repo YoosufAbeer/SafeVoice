@@ -414,10 +414,7 @@
 <!-- HEADER -->
 <header>
  <div class="header-badge">🔒 99.9% Anonymous</div> 
- <div class="chip-group" id="theme-chips"></div>
-  <div class="chip" data-val="theme">🌙</div>
- </div>
- <input type="hidden" id="theme-value" name="theme" />
+ <button id="theme-button" class="theme-toggle" type="button" aria-label="Toggle theme">🌙</button>
 </header>
 
 <!-- HERO -->
@@ -665,4 +662,22 @@
     document.getElementById('report-form').style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  // ── DARK MODE TOGGLE LOGIC ──
+  const themeButton = document.getElementById('theme-button');
+
+  // Check for a saved theme preference when the page loads
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeButton.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+  // Listen for clicks on the button to switch themes
+  themeButton.addEventListener('click', () => {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  
+  // Update the page, the button icon, and save the preference
+  document.documentElement.setAttribute('data-theme', newTheme);
+  themeButton.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('theme', newTheme);
+});
 </script>
