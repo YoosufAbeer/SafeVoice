@@ -8,14 +8,15 @@ CORS(app)
 
 # ── DUAL ROUTING FORMSPREE ENDPOINTS ──
 # Replace these strings with your actual Formspree IDs later
-STANDARD_FORMSPREE_URL = "https://formspree.io"
-CRISIS_FORMSPREE_URL   = "https://formspree.io"
+STANDARD_FORMSPREE_URL = "https://formspree.io/f/mbdwnlwk"
+CRISIS_FORMSPREE_URL   = "https://formspree.io/f/xvkorjyg"
 
 # ── WEIGHTED SEVERITY DICTIONARY (Vercel Free-Tier Friendly) ──
 CRISIS_WEIGHTS = {
     "suicide": 0.95, "suicidal": 0.95, "kill myself": 0.98, "end my life": 0.98, 
     "hang myself": 0.95, "slit my": 0.90, "cut myself": 0.85, "overdose": 0.85, 
-    "want to die": 0.98, "goodbye world": 0.90, "hurt myself": 0.85, "self harm": 0.90
+    "want to die": 0.98, "goodbye world": 0.90, "hurt myself": 0.85, "self harm": 0.90,
+    "unalive": 0.95, 
 }
 
 def analyze_crisis_score(text):
