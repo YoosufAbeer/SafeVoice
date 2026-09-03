@@ -58,6 +58,13 @@ def handle_submission():
         except Exception:
             pass
         return jsonify({"status": "success", "trigger_ui_modal": False})
+        
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({
+        "status": "online",
+        "message": "SafeVoice Python Backend is running smoothly!"
+    }), 200
 
 if __name__ == '__main__':
     # Grab the dynamic port Render allocates automatically
