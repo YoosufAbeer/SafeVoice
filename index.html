@@ -690,7 +690,7 @@
   // Let the form submit natively to Formspree for proper backend handling.
   // Generates a random reference code for the success screen.
   function makeRefCode(length = 8) {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ123456789';
     let code = '';
     for (let i = 0; i < length; i++) {
       code += chars.charAt(Math.floor(Math.random() * chars.length));
