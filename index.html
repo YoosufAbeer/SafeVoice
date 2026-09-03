@@ -738,6 +738,7 @@
   themeButton.textContent = newTheme === 'dark' ? '☀️' : '🌙';
   localStorage.setItem('theme', newTheme);
 });
+
 // ── FRONTEND TO VERCEL BACKEND CONNECTOR ──
 const form = document.getElementById('report-form') || document.querySelector('form');
 
@@ -779,7 +780,7 @@ if (form) {
         if (result.trigger_ui_modal && typeof displayHelpOverlay === 'function') {
           displayHelpOverlay(); 
         } else {
-          alert("Report logged securely.");
+          window.location.href = "https://formspree.io";
         }
         form.reset(); 
       } else {
