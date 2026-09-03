@@ -738,4 +738,75 @@
   themeButton.textContent = newTheme === 'dark' ? '☀️' : '🌙';
   localStorage.setItem('theme', newTheme);
 });
+
+// -- EMERGENCY OVERLAY --
+
+function generateDeviceEscrowToken() {
+  const array = new Uint32Array(4);
+  window.crypto.getRandomValues(array);
+  return Array.from(array, dec => dec.toString(16).padStart(8, '0')).join('-');
+}
+const currentSessionToken = generateDeviceEscrowToken();
+
+function displayHelpOverlay() {
+  const overlay = document.createElement('div');
+  overlay.style = "position:fixed; inset:0; background:rgba(0,15,110,0.9); display:flex; align-items:center; justify-content:center; z-index:9999; padding:1.5rem; font-family:sans-serif;";
+  overlay.innerHTML = `
+    <div style="background:white; color:#000f6e; padding:2rem; border-radius:14px; max-width:450px; width:100%; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+      <h2 style="color:#e92828; margin-top:0;">❤️ You don't have to carry this alone</h2>
+      <p>If you or someone you know is struggling, help is available immediately from people who care:</p>
+      <ul style="padding-left:1.2rem; margin:1rem 0; line-height:1.5;">
+        <li><strong>National Crisis Lifeline:</strong> Contact a crisis hotline (Call/Text 24/7)</li>
+        <li><strong>The Trevor Project:</strong> Call 866-488-7386 or Text START to 678-678</li>
+      </ul>
+      <button onclick="this.parentElement.parentElement.remove()" style="background:#e8ecfc; color:#000f6e; border:none; padding:0.6rem 1.2rem; border-radius:8px; cursor:pointer; font-weight:700; width:100%;">Return to App</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
+const form = document.querySelector('form');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const reportText = document.querySelector('textarea').value.trim();
+  const providedEmail = document.getElementById('student-email')?.value.trim() || "";
+  const categorySelected = document.querySelector('select')?.value || 'General';
+  const severityScore = document.querySelector('input[type="range"]')?.value || 1;
+
+  if (!reportText) return;
+
+  let payload = {
+    category: categorySelected,
+    severity: severityScore,
+    message: reportText,
+    device_escrow_token: currentSessionToken,
+    student_email: providedEmail,
+    identity_status: providedEmail ? "IDENTIFIED_BY_STUDENT" : "STRICTLY_ANONYMOUS"
+  };
+
+  try {
+    const response = await fetch('https://safevoice-xjsl.onrender.com', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      if (result.trigger_ui_modal) {
+        displayHelpOverlay();
+      } else {
+        alert("Report logged securely.");
+      }
+      form.reset();
+    } else {
+      alert("Submission error. Please try again.");
+    }
+  } catch (error) {
+    console.error("Communication failure:", error);
+  }
+});
+
 </script>
