@@ -502,7 +502,7 @@
    
   action="https://formspree.io/f/mbdwnlwk"
   method="POST">
-  
+
     <!-- CARD 1: What happened -->
     <div class="card">
       <div class="card-title"><span class="step">1</span> What happened?</div>
@@ -738,6 +738,59 @@
   themeButton.textContent = newTheme === 'dark' ? '☀️' : '🌙';
   localStorage.setItem('theme', newTheme);
 });
+// ── FRONTEND TO VERCEL BACKEND CONNECTOR ──
+const form = document.getElementById('report-form') || document.querySelector('form');
+
+if (form) {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); 
+    
+    const textarea = form.querySelector('textarea');
+    const reportText = textarea ? textarea.value.trim() : "";
+    
+    if (!reportText) {
+      alert("Please type a message before submitting.");
+      return;
+    }
+
+    const providedEmail = form.querySelector('input[type="email"]')?.value.trim() || "";
+    
+    const payload = {
+      category: form.querySelector('select')?.value || 'General',
+      severity: form.querySelector('input[type="range"]')?.value || 1,
+      message: reportText,
+      device_escrow_token: typeof currentSessionToken !== 'undefined' ? currentSessionToken : 'NONE',
+      student_email: providedEmail,
+      identity_status: providedEmail ? "IDENTIFIED_BY_STUDENT" : "STRICTLY_ANONYMOUS"
+    };
+
+    try {
+      const response = await fetch('/api/submit-report', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        if (result.trigger_ui_modal && typeof displayHelpOverlay === 'function') {
+          displayHelpOverlay(); 
+        } else {
+          alert("Report logged securely.");
+        }
+        form.reset(); 
+      } else {
+        alert("Submission error from server. Please try again.");
+      }
+    } catch (error) {
+      console.error("Communication failure:", error);
+      alert("Network connection error. Please try again.");
+    }
+  });
+}
 
 </script>
 </body>
