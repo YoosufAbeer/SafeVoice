@@ -738,4 +738,75 @@
   themeButton.textContent = newTheme === 'dark' ? '☀️' : '🌙';
   localStorage.setItem('theme', newTheme);
 });
+// ── ANONYMOUS DEVICE ESCROW CRYPTO TOKEN GENERATION ──
+function generateDeviceEscrowToken() {
+  const array = new Uint32Array(4);
+  window.crypto.getRandomValues(array);
+  return Array.from(array, dec => dec.toString(16).padStart(8, '0')).join('-');
+}
+const currentSessionToken = generateDeviceEscrowToken();
+
+// ── EMERGENCY CRISIS INTERVENTIONAL POPUP MODAL ──
+function displayHelpOverlay() {
+  const overlay = document.createElement('div');
+  overlay.style = "position:fixed; inset:0; background:rgba(0,15,110,0.95); display:flex; align-items:center; justify-content:center; z-index:9999; padding:1.5rem; font-family:sans-serif;";
+  overlay.innerHTML = `
+    <div style="background:white; color:#000f6e; padding:2.5rem; border-radius:14px; max-width:460px; width:100%; box-shadow:0 12px 36px rgba(0,0,0,0.4); text-align:left;">
+      <h2 style="color:#e92828; margin-top:0; font-size:1.5rem; font-weight:800;">❤️ You don't have to carry this alone</h2>
+      <p style="color:#6b7a8d; line-height:1.6; margin-bottom:1.2rem;">If you or someone you know is struggling, help is available immediately from people who care:</p>
+      <ul style="padding-left:1.2rem; margin:1.5rem 0; line-height:1.7; color:#000f6e;">
+        <li style="margin-bottom:0.6rem;"><strong>National Crisis Lifeline:</strong> Contact a crisis hotline (Call or Text 24/7)</li>
+        <li style="margin-bottom:0.6rem;"><strong>The Trevor Project:</strong> Call 866-488-7386 or Text START to 678-678</li>
+      </ul>
+      <button onclick="this.parentElement.parentElement.remove()" style="background:#e8ecfc; color:#000f6e; border:none; padding:0.75rem 1.5rem; border-radius:8px; cursor:pointer; font-weight:700; width:100%; font-size:1rem;">Return to SafeVoice</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
+// ── FRONTEND TO VERCEL API INTERCEPTOR ──
+const form = document.querySelector('form');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const reportText = document.querySelector('textarea').value.trim();
+  const providedEmail = document.getElementById('student-email')?.value.trim() || "";
+  const categorySelected = document.querySelector('select')?.value || 'General';
+  const severityScore = document.querySelector('input[type="range"]')?.value || 1;
+
+  if (!reportText) return;
+
+  const payload = {
+    category: categorySelected,
+    severity: severityScore,
+    message: reportText,
+    device_escrow_token: currentSessionToken,
+    student_email: providedEmail,
+    identity_status: providedEmail ? "IDENTIFIED_BY_STUDENT" : "STRICTLY_ANONYMOUS"
+  };
+
+  try {
+    const response = await fetch('/api/submit-report', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      if (result.trigger_ui_modal) {
+        displayHelpOverlay();
+      } else {
+        alert("Report logged securely.");
+      }
+      form.reset();
+    } else {
+      alert("Submission error. Please try again.");
+    }
+  } catch (error) {
+    console.error("Communication failure:", error);
+  }
+});
+
 </script>
